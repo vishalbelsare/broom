@@ -22,15 +22,16 @@ Description: Convert statistical analysis objects from R into tidy data frames,
     coefficients of a regression; augment, which adds columns to the original
     data such as predictions, residuals and cluster assignments; and glance,
     which provides a one-row summary of model-level statistics.
-Imports:
+Imports: 
     plyr,
     dplyr,
     tidyr,
     psych,
     stringr,
     reshape2,
-    nlme
-Suggests:
+    nlme,
+    stats4
+Suggests: 
     knitr,
     boot,
     survival,

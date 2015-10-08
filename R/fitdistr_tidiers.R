@@ -1,6 +1,6 @@
 #' Tidying methods for fitdistr objects from the MASS package
 #' 
-#' These methods tidies the parameter estimates resulting
+#' These methods tidy the parameter estimates resulting
 #' from an estimation of a univariate distribution's parameters.
 #' 
 #' @param x An object of class "fitdistr"

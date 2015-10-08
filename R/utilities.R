@@ -203,8 +203,13 @@ augment_columns <- function(x, data, newdata, type, type.predict = type,
 #' 
 #' @export
 finish_glance <- function(ret, x) {
-    
     ret$logLik <- tryCatch(as.numeric(stats::logLik(x)), error = function(e) NULL)
+    
+    if (is.null(ret$logLik)) {
+        # try stats4 as well
+        ret$logLik <- tryCatch(as.numeric(stats4::logLik(x)), error = function(e) NULL)
+    }
+    
     ret$AIC <- tryCatch(stats::AIC(x), error = function(e) NULL)
     ret$BIC <- tryCatch(stats::BIC(x), error = function(e) NULL)
     
@@ -229,6 +234,7 @@ finish_glance <- function(ret, x) {
 #' 
 #' @param x a model object for which \code{\link{confint}} can be calculated
 #' @param conf.level confidence level
+#' @param func Function for computing confidence interval
 #' @param ... extra arguments passed on to \code{confint}
 #' 
 #' @return A data frame with two columns: \code{conf.low} and \code{conf.high}.
@@ -236,9 +242,9 @@ finish_glance <- function(ret, x) {
 #' @seealso \link{confint}
 #' 
 #' @export
-confint_tidy <- function(x, conf.level = .95, ...) {
+confint_tidy <- function(x, conf.level = .95, func = stats::confint, ...) {
     # avoid "Waiting for profiling to be done..." message for some models
-    CI <- suppressMessages(stats::confint(x, level = conf.level, ...))
+    CI <- suppressMessages(func(x, level = conf.level, ...))
     if (is.null(dim(CI))) {
         CI = matrix(CI, nrow=1)
     }
